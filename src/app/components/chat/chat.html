@@ -1,21 +1,25 @@
 <div class="chat-container">
 
   <div class="messages">
-    <div *ngFor="let msg of messages"
-         class="message-bubble"
-         [class.user]="msg.sender === 'user'"
-         [class.assistant]="msg.sender === 'assistant'">
-      {{ msg.text }}
+    <div *ngFor="let m of messages"
+         class="msg"
+         [ngClass]="m.sender">
+      {{ m.text }}
+    </div>
+
+    <div *ngIf="isLoading" class="loading">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
     </div>
   </div>
 
   <div class="input-area">
     <input
-      type="text"
       [(ngModel)]="userMessage"
-      placeholder="Escribe tu mensaje..."
       (keyup.enter)="send()"
-    />
+      placeholder="Escribe tu mensaje..."
+    >
     <button (click)="send()">Enviar</button>
   </div>
 
