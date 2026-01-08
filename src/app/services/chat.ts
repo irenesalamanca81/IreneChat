@@ -5,7 +5,7 @@ import { Observable, tap } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ChatService {
 
-  private apiUrl = "https://localhost:7155/api" ;
+  private apiUrl = "https://irenecv-a0b4c0h8fjedc8cu.canadacentral-01.azurewebsites.net/api" ;
   private token: string | null = null;
 
   constructor(private http: HttpClient) {}
