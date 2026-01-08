@@ -141,3 +141,43 @@
 .btn-magic:hover {
   transform: scale(1.05);
 }
+
+@media (max-width: 600px) {
+  .chat-container {
+    height: 100dvh; 
+  }
+
+  .messages {
+    padding: 15px; 
+    gap: 10px;
+  }
+
+  .msg {
+    max-width: 90%; 
+    font-size: 0.9rem; 
+    padding: 10px 14px;
+  }
+
+  .login-box, .modal-content {
+    width: 90%; 
+    padding: 20px;
+  }
+
+  .input-area {
+    padding: 10px; 
+    gap: 5px;
+  }
+
+  .input-area input {
+    padding: 10px 15px;
+  }
+
+  .input-area button {
+    padding: 0 15px; 
+  }
+
+  .btn-magic {
+    width: 90%; 
+    font-size: 0.85rem;
+  }
+}
