@@ -1,12 +1,16 @@
 <div class="chat-container">
-
-  <div class="messages">
-    <div *ngFor="let m of messages"
-         class="msg"
-         [ngClass]="m.sender">
-      {{ m.text }}
+  <div *ngIf="!isLoggedIn" class="login-overlay">
+    <div class="login-box">
+      <h3>🔐 Acceso Entrevista</h3>
+      <p>Introduce el código para hablar con el asistente de Irene</p>
+      <input [(ngModel)]="accessCode" placeholder="Introduce el código..." (keyup.enter)="doLogin()">
+      <button (click)="doLogin()">Entrar</button>
     </div>
+  </div>
 
+  <div class="messages" #scrollContainer [scrollTop]="scrollContainer.scrollHeight">
+    <div *ngFor="let m of messages" class="msg" [ngClass]="m.sender" [innerHTML]="m.text"></div>
+    
     <div *ngIf="isLoading" class="loading">
       <div class="dot"></div>
       <div class="dot"></div>
@@ -14,13 +18,24 @@
     </div>
   </div>
 
-  <div class="input-area">
-    <input
-      [(ngModel)]="userMessage"
-      (keyup.enter)="send()"
-      placeholder="Escribe tu mensaje..."
-    >
+  <div *ngIf="messages.length >= 7" class="analysis-zone">
+    <button class="btn-magic" (click)="getAnalysis()">✨ Generar Evaluación de Candidata</button>
+  </div>
+
+  <div class="input-area" *ngIf="isLoggedIn">
+    <input [(ngModel)]="userMessage" (keyup.enter)="send()" placeholder="Escribe tu mensaje...">
     <button (click)="send()">Enviar</button>
   </div>
 
+  <div *ngIf="showAnalysis" class="modal-overlay">
+    <div class="modal-content">
+      <div class="analysis-body" [innerHTML]="analysisText"></div>
+      <hr>
+      <div class="email-tools">
+        <input [(ngModel)]="recruiterEmail" placeholder="Tu email para recibir copia...">
+        <button (click)="sendMail()">Enviar a mi bandeja de entrada ✉️</button>
+        <button class="btn-close" (click)="showAnalysis = false">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div>
