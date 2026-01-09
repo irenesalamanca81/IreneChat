@@ -3,7 +3,7 @@
     <div class="login-box">
       <h3>🔐 Acceso Entrevista</h3>
       <p>Introduce el código para hablar con el asistente de Irene</p>
-      <input [(ngModel)]="accessCode" placeholder="Introduce el código..." (keyup.enter)="doLogin()">
+      <input class="input-login" [(ngModel)]="accessCode" placeholder="Introduce el código..." (keyup.enter)="doLogin()">
       <button (click)="doLogin()">Entrar</button>
     </div>
   </div>
@@ -29,12 +29,17 @@
 
   <div *ngIf="showAnalysis" class="modal-overlay">
     <div class="modal-content">
+      <div class="modal-header">
+        <span>📊 Evaluación de Candidata</span>
+        <button class="btn-close-x" (click)="showAnalysis = false">✕</button>
+      </div>
+
       <div class="analysis-body" [innerHTML]="analysisText"></div>
-      <hr>
+      
       <div class="email-tools">
         <input [(ngModel)]="recruiterEmail" placeholder="Tu email para recibir copia...">
         <button (click)="sendMail()">Enviar a mi bandeja de entrada ✉️</button>
-        <button class="btn-close" (click)="showAnalysis = false">Cerrar</button>
+        <button class="btn-close-link" (click)="showAnalysis = false">Cerrar</button>
       </div>
     </div>
   </div>

@@ -1,183 +1,229 @@
-
-.chat-container {
-  width: 100%;
-  max-width: 900px;
-  margin: auto;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #fdfdfd;
+/* ==========================================================================
+   1. VARIABLES DINÁMICAS (Sincronizadas con ui-settings.json)
+   ========================================================================== */
+:root {
+  --primary-color: #005bb7;      /* Color principal de botones y mensajes */
+  --border-radius: 20px;       /* Redondeo de cajas y mensajes */
+  --chat-max-width: 900px;     /* Ancho máximo en escritorio */
+  --input-font-size: 16px;     /* Tamaño para evitar zoom automático en móvil */
+  --overlay-bg: rgba(255, 255, 255, 0.98); /* Fondo opaco de modales */
 }
 
+/* ==========================================================================
+   2. RESET & BASICS
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f4f7f9;
+  overflow: hidden; /* Evita scrolls dobles en móviles */
+}
+
+input, button {
+  font-size: var(--input-font-size) !important;
+  font-family: inherit;
+}
+
+/* ==========================================================================
+   3. CONTENEDOR PRINCIPAL
+   ========================================================================== */
+.chat-container {
+  width: 100%;
+  max-width: var(--chat-max-width);
+  margin: auto;
+  height: 100dvh; /* Altura dinámica para evitar problemas con teclados */
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+/* ==========================================================================
+   4. OVERLAYS (Login y Análisis) - CENTRADO Y SUPERPOSICIÓN
+   ========================================================================== */
+.login-overlay {
+  position: fixed; /* Asegura cobertura total */
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: var(--overlay-bg);
+  display: flex;
+  align-items: center;    /* Centrado vertical real */
+  justify-content: center; /* Centrado horizontal real */
+  z-index: 1000;          /* Prioridad sobre el chat */
+  padding: 20px;
+}
+.modal-overlay {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4); 
+  backdrop-filter: blur(8px);    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000; 
+}
+
+.login-box {
+  background: white;
+  padding: 30px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: 5px
+  text-align: center;
+}
+
+/* --- Arreglo Botón "Entrar" --- */
+.login-box button, .email-tools button, .btn-magic, .input-area button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  width: 100%;             /* Fuerza el ancho total */
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+/* ==========================================================================
+   5. ESTRUCTURA DEL MODAL (ANÁLISIS)
+   ========================================================================== */
+.modal-content {
+  background: #ffffff !important; /* Fondo blanco SÓLIDO */
+  width: 92%;
+  max-width: 600px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden; /* Corta contenido que sobresalga de los bordes redondeados */
+}
+
+.modal-header {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  flex-shrink: 0; /* Evita que la barra se encoja */
+}
+
+.analysis-body {
+  flex: 1;
+  overflow-y: auto; /* Scroll independiente solo aquí */
+  padding: 25px;
+  background: #ffffff;
+  color: #333;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.email-tools {
+  padding: 20px;
+  background: #fff;
+  border-top: 1px solid #eee;
+  flex-shrink: 0;          /* Pie fijo */
+}
+
+/* ==========================================================================
+   6. MENSAJES Y CHAT
+   ========================================================================== */
 .messages {
   flex: 1;
   overflow-y: auto;
-  padding: 30px;
+  padding: 25px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  scroll-behavior: smooth;
-
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 91, 183, 0.2) transparent;
+  gap: 12px;
+  background: #fdfdfd;
 }
-
-
-.messages::-webkit-scrollbar {
-  width: 6px; 
-}
-
-.messages::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.messages::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 91, 183, 0.2); 
-  border-radius: 10px;
-}
-
-.messages::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 91, 183, 0.5); 
-}
-
 
 .msg {
-  max-width: 75%;
+  max-width: 80%;
   padding: 12px 18px;
   font-size: 0.95rem;
-  line-height: 1.4;
-  position: relative;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  line-height: 1.5;
+  border-radius: var(--border-radius);
   word-wrap: break-word;
 }
 
 .user {
   align-self: flex-end;
-  background: #005bb7; 
+  background: var(--primary-color);
   color: white;
-  border-radius: 18px 18px 2px 18px;
+  border-bottom-right-radius: 4px;
 }
 
 .assistant {
   align-self: flex-start;
-  background: white;
+  background: #f1f1f1;
   color: #333;
-  border: 1px solid #eee;
-  border-radius: 18px 18px 18px 2px;
+  border-bottom-left-radius: 4px;
 }
-
 
 .input-area {
-  background: #fff;
-  display: flex;
-  padding: 20px;
-  gap: 10px;
+  padding: 15px 20px;
+  background: white;
   border-top: 1px solid #eee;
+  display: flex;
+  gap: 30px;
 }
-
+.input-login{
+width: 100%;
+margin: 5px;;
+}
 .input-area input {
   flex: 1;
   padding: 12px 20px;
-  border-radius: 25px;
+  margin: 59X;;
   border: 1px solid #ddd;
+  border-radius: 30px;
   outline: none;
-  transition: border-color 0.3s;
-}
-
-.input-area input:focus {
-  border-color: #005bb7;
 }
 
 .input-area button {
-  background: #005bb7;
-  color: white;
-  border: none;
+  width: auto;
   padding: 0 25px;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: bold;
 }
 
-
-.loading {
-  display: flex;
-  gap: 6px;
-  padding: 10px;
-  align-self: flex-start;
+/* ==========================================================================
+   7. BOTONES ESPECIALES Y RESPONSIVE
+   ========================================================================== */
+.btn-close-x {
+  background: transparent !important;
+  color: #999 !important;
+  width: auto !important;
+  font-size: 1.2rem !important;
 }
 
-.loading .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #005bb7;
-  opacity: 0.3;
-  animation: blink 1.4s infinite both;
-}
-
-.loading .dot:nth-child(2) { animation-delay: 0.2s; }
-.loading .dot:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes blink {
-  0%, 100% { opacity: .2; }
-  50% { opacity: 1; }
-}
-
-
-.btn-magic {
-  background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 25px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3);
-  margin: 15px auto;
-  display: block;
-  transition: transform 0.2s;
-}
-
-.btn-magic:hover {
-  transform: scale(1.05);
+.btn-close-link {
+  background: transparent !important;
+  color: #666 !important;
+  font-weight: normal !important;
+  text-decoration: underline;
+  margin-top: 10px;
 }
 
 @media (max-width: 600px) {
-  .chat-container {
-    height: 100dvh; 
-  }
-
-  .messages {
-    padding: 15px; 
-    gap: 10px;
-  }
-
-  .msg {
-    max-width: 90%; 
-    font-size: 0.9rem; 
-    padding: 10px 14px;
-  }
-
-  .login-box, .modal-content {
-    width: 90%; 
-    padding: 20px;
-  }
-
+  .messages { padding: 15px 10px; }
+  .msg { max-width: 90%; font-size: 1rem; }
   .input-area {
-    padding: 10px; 
-    gap: 5px;
-  }
-
-  .input-area input {
-    padding: 10px 15px;
-  }
-
-  .input-area button {
-    padding: 0 15px; 
-  }
-
-  .btn-magic {
-    width: 90%; 
-    font-size: 0.85rem;
+    padding: 10px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom)); /* Soporte para iPhone */
   }
 }

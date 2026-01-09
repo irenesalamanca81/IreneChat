@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 export class ChatService {
 
   private apiUrl = "https://irenecv-a0b4c0h8fjedc8cu.canadacentral-01.azurewebsites.net/api" ;
+ 
   private token: string | null = null;
 
   constructor(private http: HttpClient) {}

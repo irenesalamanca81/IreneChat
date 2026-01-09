@@ -1,0 +1,20 @@
+{
+  "theme": {
+    "primaryColor": "#005bb7",
+    "borderRadius": "20px",
+    "mobileInputFontSize": "16px",
+    "overlayOpacity": "1", 
+    "backdropBlur": "8px"
+  },
+  "layout": {
+    "maxWidth": "900px",
+    "mobileBreakpoint": "600px",
+    "useDynamicViewport": true
+  },
+  "modal": {
+    "headerBg": "#f8f9fa",
+    "showTitle": true,
+    "maxHeight": "85vh",
+    "zIndex": 10000
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "mobile_fix": {
+    "viewport_height": "100dvh",
+    "login_box_position": "center",
+    "prevent_zoom_font_size": "16px",
+    "primary_color": "#005bb7",
+    "bubble_radius": "20px"
+  }
+}
